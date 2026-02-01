@@ -1,11 +1,397 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Personal Site</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    
+    <style>
+        /* ===== SMOOTH COLOR PALETTE ===== */
+        :root {
+            --main-color: #2d6a4f;      /* Deep forest green */
+            --accent-color: #ff87ab;    /* Soft bubblegum pink */
+            --bg-color: #f0f4f1;        /* Very light mint */
+            --card-bg: #ffffff;
+            --text-color: #1b4332;      /* Dark green text */
+            --shadow: rgba(45, 106, 79, 0.08);  /* Soft green shadow */
+        }
+
+        /* ===== SMOOTH RESET ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;  /* Makes all changes smooth */
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #f0f4f1 0%, #fff0f3 100%);  /* Subtle gradient */
+            min-height: 100vh;
+        }
+
+        /* ===== ROUNDED HEADER ===== */
+        header {
+            background: linear-gradient(135deg, var(--main-color) 0%, #40916c 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            border-radius: 0 0 50px 50px;  /* Rounded bottom corners */
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* ===== PILL-SHAPED NAVIGATION ===== */
+        nav {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 20px;
+            margin: 0 auto;
+            max-width: 900px;
+            border-radius: 50px;  /* Fully rounded pill shape */
+            box-shadow: 0 4px 20px var(--shadow);
+            backdrop-filter: blur(10px);  /* Frosted glass effect */
+            z-index: 100;
+        }
+
+        nav a {
+            color: var(--main-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        nav a:hover {
+            background-color: var(--accent-color);
+            color: white;
+            box-shadow: 0 2px 10px rgba(255, 135, 171, 0.4);
+        }
+
+        /* ===== SUPER ROUNDED CONTAINER ===== */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* ===== SOFT SECTION CARDS ===== */
+        section {
+            background-color: var(--card-bg);
+            margin: 40px 0;
+            padding: 50px;
+            border-radius: 30px;  /* Extra rounded corners */
+            box-shadow: 0 8px 32px var(--shadow);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        section h2 {
+            color: var(--main-color);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent-color);
+            display: inline-block;
+            border-radius: 0 0 10px 10px;  /* Rounded underline ends */
+        }
+
+        /* ===== CIRCULAR PROFILE ===== */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .profile-pic {
+            width: 160px;
+            height: 160px;
+            background: linear-gradient(135deg, var(--accent-color) 0%, #ffc2d1 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5em;
+            box-shadow: 0 8px 25px rgba(255, 135, 171, 0.3);
+            border: 5px solid white;
+        }
+
+        /* ===== NO DOTS LIST - CLEAN STYLE ===== */
+        ul {
+            list-style: none;  /* Removes the dots */
+            margin-left: 0;
+        }
+
+        li {
+            margin: 15px 0;
+            padding: 15px 20px;
+            background-color: rgba(255, 135, 171, 0.1);  /* Light pink background */
+            border-radius: 15px;  /* Rounded list items */
+            border-left: 4px solid var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        li:hover {
+            background-color: rgba(255, 135, 171, 0.2);
+            transform: translateX(5px);  /* Slide right on hover */
+        }
+
+        /* ===== PINK SKILL TAGS ===== */
+        .skill-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-color) 0%, #ffb3c6 100%);
+            color: white;
+            padding: 10px 20px;
+            margin: 8px;
+            border-radius: 25px;  /* Pill shape */
+            font-size: 0.95em;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 135, 171, 0.3);
+            cursor: default;
+        }
+
+        .skill-tag:hover {
+            transform: translateY(-3px) scale(1.05);  /* Lift and grow */
+            box-shadow: 0 6px 20px rgba(255, 135, 171, 0.4);
+        }
+
+        /* ===== ROUNDED PROJECT CARDS ===== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .project-card {
+            border: none;
+            border-radius: 25px;  /* Very rounded */
+            overflow: hidden;
+            box-shadow: 0 5px 20px var(--shadow);
+            background: white;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) rotate(1deg);  /* Lift and slight tilt */
+            box-shadow: 0 15px 40px rgba(255, 135, 171, 0.2);
+        }
+
+        .project-image {
+            height: 180px;
+            background: linear-gradient(135deg, var(--main-color) 0%, #52b788 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1em;
+        }
+
+        .project-info {
+            padding: 30px;
+        }
+
+        .project-info h3 {
+            color: var(--main-color);
+            margin-bottom: 12px;
+            font-size: 1.3em;
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 2px solid var(--accent-color);
+        }
+
+        .project-link:hover {
+            background-color: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 135, 171, 0.4);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background-color: var(--main-color);
+            color: white;
+            margin-top: 60px;
+            border-radius: 50px 50px 0 0;  /* Rounded top */
+        }
+
+        footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+        }
+
+        footer a:hover {
+            color: white;
+            background-color: var(--accent-color);
+        }
+
+        /* ===== MOBILE FRIENDLY ===== */
+        @media (max-width: 600px) {
+            header {
+                border-radius: 0 0 30px 30px;
+            }
+            
+            section {
+                padding: 30px;
+                border-radius: 20px;
+            }
+            
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav {
+                border-radius: 30px;
+                top: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <!-- Add your HTML content here -->
+
+    <header>
+        <h1>Hi, I'm Lorea</h1>
+        <p>Web Development Student & Creative Coder</p>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="#about">About Me</a>
+        <a href="#likes">My Interests</a>
+        <a href="#learning">Learning</a>
+        <a href="#projects">Projects</a>
+    </nav>
+
+    <div class="container">
+        
+        <!-- About -->
+        <section id="about">
+            <h2>About Me</h2>
+            <div class="about-content">
+                <div class="profile-pic">🦇</div>
+                <div>
+                    <p>Hello! I'm currently studying web development and loving every minute of it. This portfolio is where I keep track of my growth and show off what I'm building.</p>
+                    <br>
+                    <p>I believe websites should be functional <em>and</em> beautiful—like a perfect blend of early 2000s aesthetics and modern code. 🖤</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interests -->
+        <section id="likes">
+            <h2>What I Like</h2>
+            <p>Things that make me smile:</p>
+            <br>
+            <ul>
+                <li>📚 Reading documentation (and sometimes actual books)</li>
+                <li>🎨 Making things look pretty with CSS</li>
+                <li>🐾 Animals—especially my two ragdolls</li>
+                <li>☕ Chai latte and pink lemonade</li>
+                <li>💻 Early morning coding sessions</li>
+                <li>🎵 2000s pop or gothic rock</li>
+            </ul>
+        </section>
+
+        <!-- Learning -->
+        <section id="learning">
+            <h2>What I'm Learning</h2>
+            <p>Currently growing these skills:</p>
+            <br>
+            
+            <span class="skill-tag">HTML5</span>
+            <span class="skill-tag">CSS3</span>
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">Responsive Design</span>
+            <span class="skill-tag">Git & GitHub</span>
+            <span class="skill-tag">UI Design</span>
+            
+            <br><br>
+            <p style="background-color: rgba(45, 106, 79, 0.1); padding: 20px; border-radius: 15px; border-left: 4px solid var(--main-color);">
+                <strong>Current Focus:</strong> Making websites feel smooth and natural, like butter! 🧈
+            </p>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects">
+            <h2>My Projects</h2>
+            <p>A collection of my work:</p>
+            
+            <div class="projects-grid">
+                
+                <div class="project-card">
+                    <div class="project-image">[Screenshot]</div>
+                    <div class="project-info">
+                        <h3>Project One</h3>
+                        <p>Description of your first project. What did you build? What did you learn?</p>
+                        <a href="#" class="project-link">View Live →</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">[Screenshot]</div>
+                    <div class="project-info">
+                        <h3>Project Two</h3>
+                        <p>Another cool thing you made. Maybe mention the tech stack here.</p>
+                        <a href="#" class="project-link">View Code →</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">[Screenshot]</div>
+                    <div class="project-info">
+                        <h3>Project Three</h3>
+                        <p>Your third project. Don't forget to update these colors if you want!</p>
+                        <a href="#" class="project-link">View Live →</a>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">Coming Soon</div>
+                    <div class="project-info">
+                        <h3>Next Adventure</h3>
+                        <p>Space reserved for your future masterpiece. Stay tuned!</p>
+                        <a href="#" class="project-link">WIP →</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>Made with 💚 and 💗 by Lore</p>
+        <p style="margin-top: 10px;">
+            <a href="#">GitHub</a> • 
+            <a href="#">LinkedIn</a> • 
+            <a href="#">Email</a>
+        </p>
+    </footer>
+
 </body>
 </html>
